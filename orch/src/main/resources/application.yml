@@ -1,0 +1,50 @@
+spring.datasource.username: 'kraykov'
+spring.datasource.password: ENC(ZPFBvfhMlH9zTI/UYhLBX2vHIpKPwKTw)
+spring.datasource.driver-class-name: com.mysql.jdbc.Driver
+
+server:
+  port : 8080
+
+security:
+  jwt:
+    token:
+      secret-key: ENC(oOMhast5nvsa0og/3esr8/BNoa2i6FO0)
+      expire-length: 90000000
+
+
+services:
+    user:
+      loginUser: http://localhost:8081/users/login
+      signupUser: http://localhost:8081/users/signup
+      createTrainer: http://localhost:8081/users/trainer
+      getTrainerByUserId: http://localhost:8081/users/trainer/{userId}
+      createClient: http://localhost:8081/users/client
+      getClientByUserId: http://localhost:8081/users/client/{userId}
+      getAccessModules: http://localhost:8081/access/modules
+      insertAccessModules: http://localhost:8081/access/modules
+      insertUserPermissions: http://localhost:8081/access/access/{userId}/permissions
+      getCities: http://localhost:8081/cities
+
+---
+spring:
+  profiles: dev
+  datasource.url: 'jdbc:mysql://home.micro3x.com:4404/kirodb'
+
+---
+spring:
+  profiles: prod
+  datasource.url: 'jdbc:mysql://192.168.9.5:3306/kirodb'
+  services:
+      user:
+        loginUser: http://localhost:8081/users/login
+        signupUser: http://localhost:8081/users/signup
+        createTrainer: http://localhost:8081/users/trainer
+        getTrainerByUserId: http://localhost:8081/users/trainer/{userId}
+        createClient: http://localhost:8081/users/client
+        getClientByUserId: http://localhost:8081/users/client/{userId}
+        getAccessModules: http://localhost:8081/access/modules
+        insertAccessModules: http://localhost:8081/access/modules
+
+
+
+

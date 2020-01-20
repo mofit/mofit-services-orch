@@ -1,0 +1,6 @@
+properties.environment: 'local'
+user.service.host: 'http://localhost:8080'
+
+
+
+

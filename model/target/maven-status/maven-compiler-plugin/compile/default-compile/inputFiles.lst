@@ -1,0 +1,14 @@
+/Users/kraykov/Documents/dev/mofit-services-media/model/src/main/java/com/mofit/mainmofitapiservice/models/GenericErrorResponse.java
+/Users/kraykov/Documents/dev/mofit-services-media/model/src/main/java/com/mofit/mainmofitapiservice/models/User.java
+/Users/kraykov/Documents/dev/mofit-services-media/model/src/main/java/com/mofit/mainmofitapiservice/models/Trainer.java
+/Users/kraykov/Documents/dev/mofit-services-media/model/src/main/java/com/mofit/mainmofitapiservice/models/LoginUserRequest.java
+/Users/kraykov/Documents/dev/mofit-services-media/model/src/main/java/com/mofit/mainmofitapiservice/models/AccessModule.java
+/Users/kraykov/Documents/dev/mofit-services-media/model/src/main/java/com/mofit/mainmofitapiservice/models/Company.java
+/Users/kraykov/Documents/dev/mofit-services-media/model/src/main/java/com/mofit/mainmofitapiservice/models/Sport.java
+/Users/kraykov/Documents/dev/mofit-services-media/model/src/main/java/com/mofit/mainmofitapiservice/models/Permission.java
+/Users/kraykov/Documents/dev/mofit-services-media/model/src/main/java/com/mofit/mainmofitapiservice/models/SignupUserRequest.java
+/Users/kraykov/Documents/dev/mofit-services-media/model/src/main/java/com/mofit/mainmofitapiservice/models/City.java
+/Users/kraykov/Documents/dev/mofit-services-media/model/src/main/java/com/mofit/mainmofitapiservice/models/UserType.java
+/Users/kraykov/Documents/dev/mofit-services-media/model/src/main/java/com/mofit/mainmofitapiservice/models/SignUserResponse.java
+/Users/kraykov/Documents/dev/mofit-services-media/model/src/main/java/com/mofit/mainmofitapiservice/models/Client.java
+/Users/kraykov/Documents/dev/mofit-services-media/model/src/main/java/com/mofit/mainmofitapiservice/models/utils/CustomDateSerializer.java
