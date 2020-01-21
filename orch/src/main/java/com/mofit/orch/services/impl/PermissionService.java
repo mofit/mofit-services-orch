@@ -1,19 +1,15 @@
 package com.mofit.orch.services.impl;
 
 import com.mofit.mainmofitapiservice.models.AccessModule;
-import com.mofit.mainmofitapiservice.models.City;
 import com.mofit.mainmofitapiservice.models.Permission;
-import com.mofit.mainmofitapiservice.models.SignUserResponse;
-import com.mofit.orch.dao.IUserDAO;
-import com.mofit.orch.exceptions.CustomClientException;
+import com.mofit.orch.exceptions.RestTemplateErrorHandler;
 import com.mofit.orch.services.api.IPermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +27,7 @@ public class PermissionService implements IPermissionService {
     private static final String USER_ID_KEY = "userId";
 
     private final RestOperations restTemplate;
+    private final RestTemplateBuilder restTemplateBuilder;
 
     @Value("${services.user.getAccessModules}")
     String getAccessModulesUrl;
@@ -42,8 +39,9 @@ public class PermissionService implements IPermissionService {
     String insertUserPermissions;
 
     @Autowired
-    public PermissionService(RestOperations restTemplatе) {
-        this.restTemplate = restTemplatе;
+    public PermissionService(RestTemplateBuilder restTemplateBuilder) {
+        this.restTemplateBuilder = restTemplateBuilder;
+        restTemplate = restTemplateBuilder.errorHandler(new RestTemplateErrorHandler()).build();
     }
 
     @Override
@@ -84,9 +82,6 @@ public class PermissionService implements IPermissionService {
             .buildAndExpand(params)
             .toUri();
 
-        ResponseEntity<String> responseEntity = restTemplate.exchange(uri,
-                                  HttpMethod.POST,
-                                  new HttpEntity<>(permissions),
-                                  String.class);
+        restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(permissions), String.class);
     }
 }

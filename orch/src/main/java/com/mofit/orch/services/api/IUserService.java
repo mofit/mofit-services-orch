@@ -5,9 +5,11 @@ import com.mofit.mainmofitapiservice.models.SignUserResponse;
 import com.mofit.mainmofitapiservice.models.SignupUserRequest;
 import com.mofit.mainmofitapiservice.models.User;
 
+import java.io.IOException;
+
 public interface IUserService {
 
     User getUserByEmail(String username);
     SignUserResponse loginUser(LoginUserRequest loginUserRequest);
-    SignUserResponse createNewUser(SignupUserRequest userRequest);
+    SignUserResponse createNewUser(SignupUserRequest userRequest) throws IOException;
 }

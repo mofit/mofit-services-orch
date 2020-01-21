@@ -30,13 +30,8 @@
 		<dependencies>
 			<dependency>
 				<groupId>com.mofit</groupId>
-				<artifactId>media-service-model</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.mofit</groupId>
 				<artifactId>user-service-model</artifactId>
-				<version>${project.version}</version>
+				<version>0.0.2-SNAPSHOT</version>
 			</dependency>
 
             <dependency>

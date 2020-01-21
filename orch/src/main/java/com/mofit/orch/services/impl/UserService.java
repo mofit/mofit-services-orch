@@ -1,16 +1,18 @@
 package com.mofit.orch.services.impl;
 
 
+import com.mofit.mainmofitapiservice.models.CustomClientException;
 import com.mofit.mainmofitapiservice.models.LoginUserRequest;
 import com.mofit.mainmofitapiservice.models.SignUserResponse;
 import com.mofit.mainmofitapiservice.models.SignupUserRequest;
 import com.mofit.mainmofitapiservice.models.User;
 import com.mofit.orch.dao.IUserDAO;
-import com.mofit.orch.exceptions.CustomClientException;
+import com.mofit.orch.exceptions.RestTemplateErrorHandler;
 import com.mofit.orch.security.JwtTokenProvider;
 import com.mofit.orch.services.api.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -23,6 +25,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestOperations;
 
+import java.io.IOException;
+
 import static com.mofit.mainmofitapiservice.models.UserType.PLAIN_USER;
 
 @Service
@@ -32,7 +36,8 @@ public class UserService implements IUserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
-    private final RestOperations restTemplate;
+    private RestOperations restTemplate;
+    private final RestTemplateBuilder restTemplateBuilder;
 
     @Value("${services.user.loginUser}")
     String loginUserUrl;
@@ -43,12 +48,14 @@ public class UserService implements IUserService {
     @Autowired
     public UserService(IUserDAO userDAO, PasswordEncoder passwordEncoder,
                        JwtTokenProvider jwtTokenProvider,
-                       AuthenticationManager authenticationManager, RestOperations restTemplate) {
+                       AuthenticationManager authenticationManager, RestTemplateBuilder restTemplateBuilder) {
         this.userDAO = userDAO;
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenProvider = jwtTokenProvider;
         this.authenticationManager = authenticationManager;
-        this.restTemplate = restTemplate;
+        this.restTemplateBuilder = restTemplateBuilder;
+
+        restTemplate = restTemplateBuilder.errorHandler(new RestTemplateErrorHandler()).build();
     }
 
     @Override
@@ -85,17 +92,17 @@ public class UserService implements IUserService {
             new ParameterizedTypeReference<SignUserResponse>() {
             };
 
-        ResponseEntity<SignUserResponse> responseEntity =
-            restTemplate.exchange(signupUserUrl,
-                                  HttpMethod.POST,
-                                  new HttpEntity<>(userRequest),
-                                  responseType);
+            ResponseEntity<SignUserResponse> responseEntity =
+                restTemplate.exchange(signupUserUrl,
+                                      HttpMethod.POST,
+                                      new HttpEntity<>(userRequest),
+                                      responseType);
 
-        Integer userId = responseEntity.getBody().getUserId();
-        responseEntity.getBody().setToken(jwtTokenProvider.createToken(
-            userRequest.getEmail(), userRequest.getPermissions(), PLAIN_USER.name(), userId));
+            Integer userId = responseEntity.getBody().getUserId();
+            responseEntity.getBody().setToken(jwtTokenProvider.createToken(
+                userRequest.getEmail(), userRequest.getPermissions(), PLAIN_USER.name(), userId));
 
-        return responseEntity.getBody();
+            return responseEntity.getBody();
     }
 
 }

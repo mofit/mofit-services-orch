@@ -1,6 +1,0 @@
-com/mofit/mainmofitapiservice/functionalTest/UserTestBase.class
-com/mofit/mainmofitapiservice/functionalTest/CreateUserFullIT.class
-com/mofit/mainmofitapiservice/services/UserServiceTest.class
-com/mofit/mainmofitapiservice/functionalTest/GetUserRolesFullIT.class
-com/mofit/mainmofitapiservice/utils/PayloadBuilder.class
-com/mofit/mainmofitapiservice/utils/RestEndpointTestUtils.class

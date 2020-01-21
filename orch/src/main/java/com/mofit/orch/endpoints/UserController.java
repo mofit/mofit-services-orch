@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+
 import javax.validation.Valid;
 
 @RestController
@@ -32,7 +34,8 @@ public class UserController {
     @ApiOperation(value = "Creates new User")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/signup")
-    public SignUserResponse createNewUser(@RequestBody @Valid SignupUserRequest request) {
+    public SignUserResponse createNewUser(@RequestBody @Valid SignupUserRequest request)
+        throws IOException {
         return userService.createNewUser(request);
     }
 

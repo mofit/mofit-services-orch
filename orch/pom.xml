@@ -15,11 +15,6 @@
     <dependencies>
         <dependency>
             <groupId>com.mofit</groupId>
-            <artifactId>media-service-model</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.mofit</groupId>
             <artifactId>user-service-model</artifactId>
         </dependency>
 
@@ -34,6 +29,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-joda</artifactId>
         </dependency>
         <dependency>
             <groupId>com.netflix.hystrix</groupId>

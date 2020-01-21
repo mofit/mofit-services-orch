@@ -1,9 +1,11 @@
 package com.mofit.orch.services.impl;
 
 import com.mofit.mainmofitapiservice.models.Trainer;
+import com.mofit.orch.exceptions.RestTemplateErrorHandler;
 import com.mofit.orch.services.api.ITrainerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,7 @@ public class TrainerService implements ITrainerService {
     private static final String USER_ID_KEY = "userId";
 
     private final RestOperations restTemplate;
+    private final RestTemplateBuilder restTemplateBuilder;
 
     @Value("${services.user.createTrainer}")
     String createTrainerUrl;
@@ -29,8 +32,9 @@ public class TrainerService implements ITrainerService {
     String getTrainerByUserIdUrl;
 
     @Autowired
-    public TrainerService(RestOperations restTemplatе) {
-        this.restTemplate = restTemplatе;
+    public TrainerService(RestTemplateBuilder restTemplateBuilder) {
+        this.restTemplateBuilder = restTemplateBuilder;
+        restTemplate = restTemplateBuilder.errorHandler(new RestTemplateErrorHandler()).build();
     }
 
     @Override

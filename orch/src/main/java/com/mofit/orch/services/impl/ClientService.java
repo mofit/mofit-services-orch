@@ -1,9 +1,11 @@
 package com.mofit.orch.services.impl;
 
 import com.mofit.mainmofitapiservice.models.Client;
+import com.mofit.orch.exceptions.RestTemplateErrorHandler;
 import com.mofit.orch.services.api.IClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,7 @@ public class ClientService implements IClientService {
     private static final String USER_ID_KEY = "userId";
 
     private final RestOperations restTemplate;
+    private final RestTemplateBuilder restTemplateBuilder;
 
     @Value("${services.user.createClient}")
     String createClientUrl;
@@ -30,8 +33,9 @@ public class ClientService implements IClientService {
     String getClientByUserIdUrl;
 
     @Autowired
-    public ClientService(RestOperations restTemplatе) {
-        this.restTemplate = restTemplatе;
+    public ClientService(RestTemplateBuilder restTemplateBuilder) {
+        this.restTemplateBuilder = restTemplateBuilder;
+        restTemplate = restTemplateBuilder.errorHandler(new RestTemplateErrorHandler()).build();
     }
 
     @Override
