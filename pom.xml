@@ -33,7 +33,11 @@
 				<artifactId>user-service-model</artifactId>
 				<version>0.0.2-SNAPSHOT</version>
 			</dependency>
-
+			<dependency>
+				<groupId>com.mofit</groupId>
+				<artifactId>media-service-model</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
             <dependency>
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger2</artifactId>
@@ -86,19 +90,4 @@
 			<version>2.10</version>
 		</dependency>
 	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>none</phase>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
-
 </project>

@@ -11,11 +11,16 @@
 
     <artifactId>orch-service</artifactId>
     <name>orch-service</name>
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
             <groupId>com.mofit</groupId>
             <artifactId>user-service-model</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.mofit</groupId>
+            <artifactId>media-service-model</artifactId>
         </dependency>
 
         <dependency>
@@ -71,5 +76,17 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.mofit.orch.OrchestrationServiceApplication</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

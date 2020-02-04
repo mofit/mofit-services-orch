@@ -11,6 +11,7 @@
 
     <artifactId>orch-service-model</artifactId>
     <name>orch-service-model</name>
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
