@@ -25,8 +25,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestOperations;
 
-import java.io.IOException;
-
 import static com.mofit.mainmofitapiservice.models.UserType.PLAIN_USER;
 
 @Service
@@ -82,7 +80,6 @@ public class UserService implements IUserService {
             .build();
     }
 
-
     @Transactional
     @Override
     public SignUserResponse createNewUser(SignupUserRequest userRequest) {
@@ -104,5 +101,4 @@ public class UserService implements IUserService {
 
             return responseEntity.getBody();
     }
-
 }

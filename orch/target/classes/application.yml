@@ -2,11 +2,11 @@ spring.datasource.username: 'kraykov'
 spring.datasource.password: ENC(ZPFBvfhMlH9zTI/UYhLBX2vHIpKPwKTw)
 spring.datasource.driver-class-name: com.mysql.jdbc.Driver
 
-spring.http.multipart.max-file-size: 3MB
-spring.http.multipart.max-request-size: 3MB
+spring.http.multipart.max-file-size: 3000000
+spring.http.multipart.max-request-size: 3000000
 
 server:
-  port : 8080
+  port : 8093
 
 security:
   jwt:
@@ -28,7 +28,7 @@ services:
       insertUserPermissions: http://localhost:8071/access/access/{userId}/permissions
       getCities: http://localhost:8071/cities
     media:
-      setAvatar: http://localhost:8082/media/avatar/22
+      setAvatar: http://localhost:8072/media/avatar/{userId}
 
 
 ---
@@ -40,16 +40,7 @@ spring:
 spring:
   profiles: prod
   datasource.url: 'jdbc:mysql://192.168.9.5:3306/kirodb'
-  services:
-      user:
-        loginUser: http://localhost:8081/users/login
-        signupUser: http://localhost:8081/users/signup
-        createTrainer: http://localhost:8081/users/trainer
-        getTrainerByUserId: http://localhost:8081/users/trainer/{userId}
-        createClient: http://localhost:8081/users/client
-        getClientByUserId: http://localhost:8081/users/client/{userId}
-        getAccessModules: http://localhost:8081/access/modules
-        insertAccessModules: http://localhost:8081/access/modules
+
 
 
 
