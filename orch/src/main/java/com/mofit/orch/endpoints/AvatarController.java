@@ -1,6 +1,6 @@
 package com.mofit.orch.endpoints;
 
-import com.mofit.media.models.AvatarUploadResponse;
+import com.mofit.media.models.AvatarData;
 import com.mofit.orch.services.api.IAvatarService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class AvatarController {
     @ApiOperation(value = "Upload User Avatar")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/avatar/{userId}")
-    public AvatarUploadResponse uploadAvatar(@PathVariable Integer userId,
+    public AvatarData uploadAvatar(@PathVariable Integer userId,
                                              @RequestPart(required = false) MultipartFile file){
 
         return avatarService.uploadUserAvatar(userId, file);
@@ -41,7 +41,7 @@ public class AvatarController {
     @ApiOperation(value = "Update User Avatar")
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/avatar/{userId}")
-    public AvatarUploadResponse updateAvatar(@PathVariable Integer userId,
+    public AvatarData updateAvatar(@PathVariable Integer userId,
                                              @RequestPart(required = false) MultipartFile file){
 
         return avatarService.updateUserAvatar(userId, file);
@@ -50,7 +50,7 @@ public class AvatarController {
     @ApiOperation(value = "Get User Avatar Data by userId")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/avatar/{userId}")
-    public AvatarUploadResponse getAvatarDataByUserId(@PathVariable(required = false) Integer userId) {
+    public AvatarData getAvatarDataByUserId(@PathVariable(required = false) Integer userId) {
         return avatarService.getAvatarData(userId);
     }
 

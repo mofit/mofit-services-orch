@@ -5,6 +5,11 @@ target/
 *\.iml
 *\.ipr
 *\.iws
+orch/target/*
+HELP.md
+mvnw
+mvnw.cmd
+.mvn
 
 # Eclipse
 .classpath

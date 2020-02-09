@@ -1,8 +1,7 @@
 package com.mofit.orch.services.impl;
 
 import com.mofit.mainmofitapiservice.models.CustomClientException;
-import com.mofit.media.models.AvatarUploadResponse;
-import com.mofit.orch.dao.IUserDAO;
+import com.mofit.media.models.AvatarData;
 import com.mofit.orch.exceptions.RestTemplateErrorHandler;
 import com.mofit.orch.services.api.IAvatarService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +14,13 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestOperations;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -28,9 +30,8 @@ import static com.mofit.orch.services.utils.FileUtils.getUserFileResource;
 @Service
 public class AvatarService implements IAvatarService {
 
-    private final RestOperations restTemplate;
+    private RestOperations restTemplate;
     private final RestTemplateBuilder restTemplateBuilder;
-    private final IUserDAO userDAO;
 
     @Value("${services.media.setAvatar}")
     String setAvatarUrl;
@@ -38,10 +39,15 @@ public class AvatarService implements IAvatarService {
     @Value("${spring.http.multipart.max-file-size}")
     Long maxRequestFileSize;
 
+    @Value("${photos.defaultAvatarUrl}")
+    String defaultAvatarUrl;
+
+    @Value("${photos.defaultThumbnailUrl}")
+    String defaultThumbnailUrl;
+
     @Autowired
-    public AvatarService(RestTemplateBuilder restTemplateBuilder, IUserDAO userDAO) {
+    public AvatarService(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplateBuilder = restTemplateBuilder;
-        this.userDAO = userDAO;
 
         restTemplate = restTemplateBuilder
             .errorHandler(new RestTemplateErrorHandler())
@@ -49,14 +55,14 @@ public class AvatarService implements IAvatarService {
     }
 
     @Override
-    public AvatarUploadResponse uploadUserAvatar(Integer userId, MultipartFile file) {
+    public AvatarData uploadUserAvatar(Integer userId, MultipartFile file) {
         verifyFileSize(file);
 
-        ParameterizedTypeReference<AvatarUploadResponse> responseType =
-            new ParameterizedTypeReference<AvatarUploadResponse>() {
+        ParameterizedTypeReference<AvatarData> responseType =
+            new ParameterizedTypeReference<AvatarData>() {
             };
 
-        ResponseEntity<AvatarUploadResponse> responseEntity;
+        ResponseEntity<AvatarData> responseEntity;
 
         MultiValueMap<String, Object> bodyMap = new LinkedMultiValueMap<>();
         try {
@@ -78,14 +84,14 @@ public class AvatarService implements IAvatarService {
     }
 
     @Override
-    public AvatarUploadResponse updateUserAvatar(Integer userId, MultipartFile file) {
+    public AvatarData updateUserAvatar(Integer userId, MultipartFile file) {
         verifyFileSize(file);
 
-        ParameterizedTypeReference<AvatarUploadResponse> responseType =
-            new ParameterizedTypeReference<AvatarUploadResponse>() {
+        ParameterizedTypeReference<AvatarData> responseType =
+            new ParameterizedTypeReference<AvatarData>() {
             };
 
-        ResponseEntity<AvatarUploadResponse> responseEntity;
+        ResponseEntity<AvatarData> responseEntity;
 
         MultiValueMap<String, Object> bodyMap = new LinkedMultiValueMap<>();
         try {
@@ -107,16 +113,35 @@ public class AvatarService implements IAvatarService {
     }
 
     @Override
-    public AvatarUploadResponse getAvatarData(Integer userId) {
-        ParameterizedTypeReference<AvatarUploadResponse> responseType =
-            new ParameterizedTypeReference<AvatarUploadResponse>() {
+    public AvatarData getAvatarData(Integer userId) {
+        ParameterizedTypeReference<AvatarData> responseType =
+            new ParameterizedTypeReference<AvatarData>() {
             };
 
-        return restTemplate.exchange(setAvatarUrl,
-                                     HttpMethod.GET,
-                                     null,
-                                     responseType, userId).getBody();
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.setErrorHandler(new ResponseErrorHandler() {
+            @Override
+            public boolean hasError(ClientHttpResponse clientHttpResponse) {
+                return false;
+            }
 
+            @Override
+            public void handleError(ClientHttpResponse clientHttpResponse) {
+            }
+        });
+
+
+        ResponseEntity<AvatarData> responseEntity = restTemplate.exchange(
+            setAvatarUrl, HttpMethod.GET, null, responseType, userId);
+
+        if(responseEntity.getStatusCode().is2xxSuccessful()) {
+            return responseEntity.getBody();
+        }
+
+        return AvatarData.builder()
+            .avatarMediaUrl(defaultAvatarUrl)
+            .thumbnailMediaUrl(defaultThumbnailUrl)
+            .build();
     }
 
     @Override

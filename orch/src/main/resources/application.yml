@@ -15,6 +15,10 @@ security:
       expire-length: 90000000
 
 
+photos:
+  defaultAvatarUrl: 'http://mofit-storage.madnet-bg.com/userAvatars/defaultAvatar.jpg'
+  defaultThumbnailUrl: 'http://mofit-storage.madnet-bg.com/userAvatars/defaultThumbnail.jpeg'
+
 services:
     user:
       loginUser: http://localhost:8071/users/login

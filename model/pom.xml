@@ -15,6 +15,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.mofit</groupId>
+            <artifactId>user-service-model</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
         </dependency>

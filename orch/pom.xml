@@ -20,6 +20,10 @@
         </dependency>
         <dependency>
             <groupId>com.mofit</groupId>
+            <artifactId>orch-service-model</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.mofit</groupId>
             <artifactId>media-service-model</artifactId>
         </dependency>
 

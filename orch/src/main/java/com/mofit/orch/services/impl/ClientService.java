@@ -1,6 +1,7 @@
 package com.mofit.orch.services.impl;
 
 import com.mofit.mainmofitapiservice.models.Client;
+import com.mofit.media.models.AvatarData;
 import com.mofit.orch.exceptions.RestTemplateErrorHandler;
 import com.mofit.orch.services.api.IClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ public class ClientService implements IClientService {
 
     private final RestOperations restTemplate;
     private final RestTemplateBuilder restTemplateBuilder;
+    private final AvatarService avatarService;
 
     @Value("${services.user.createClient}")
     String createClientUrl;
@@ -33,9 +35,10 @@ public class ClientService implements IClientService {
     String getClientByUserIdUrl;
 
     @Autowired
-    public ClientService(RestTemplateBuilder restTemplateBuilder) {
+    public ClientService(RestTemplateBuilder restTemplateBuilder, AvatarService avatarService) {
         this.restTemplateBuilder = restTemplateBuilder;
         restTemplate = restTemplateBuilder.errorHandler(new RestTemplateErrorHandler()).build();
+        this.avatarService = avatarService;
     }
 
     @Override
@@ -62,8 +65,13 @@ public class ClientService implements IClientService {
                                                                       HttpMethod.GET,
                                                                       null,
                                                                       Client.class);
+        Client clientToBeReturned = responseEntity.getBody();
 
-        return responseEntity.getBody();
+        AvatarData avatarData = avatarService.getAvatarData(userId);
 
+        clientToBeReturned.setThumbnailUrl(avatarData.getThumbnailMediaUrl());
+        clientToBeReturned.setAvatarUrl(avatarData.getAvatarMediaUrl());
+
+        return clientToBeReturned;
     }
 }
