@@ -18,7 +18,6 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
-//TODO: Investigate if we need to authenticate the token in the service methods
 @Service
 public class ClientService implements IClientService {
 

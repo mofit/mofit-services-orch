@@ -1,6 +1,8 @@
 package com.mofit.orch.services.impl;
 
+import com.mofit.mainmofitapiservice.models.Client;
 import com.mofit.mainmofitapiservice.models.Trainer;
+import com.mofit.media.models.AvatarData;
 import com.mofit.orch.exceptions.RestTemplateErrorHandler;
 import com.mofit.orch.services.api.ITrainerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ public class TrainerService implements ITrainerService {
 
     private final RestOperations restTemplate;
     private final RestTemplateBuilder restTemplateBuilder;
+    private final AvatarService avatarService;
 
     @Value("${services.user.createTrainer}")
     String createTrainerUrl;
@@ -32,9 +35,10 @@ public class TrainerService implements ITrainerService {
     String getTrainerByUserIdUrl;
 
     @Autowired
-    public TrainerService(RestTemplateBuilder restTemplateBuilder) {
+    public TrainerService(RestTemplateBuilder restTemplateBuilder, AvatarService avatarService) {
         this.restTemplateBuilder = restTemplateBuilder;
         restTemplate = restTemplateBuilder.errorHandler(new RestTemplateErrorHandler()).build();
+        this.avatarService = avatarService;
     }
 
     @Override
@@ -60,9 +64,14 @@ public class TrainerService implements ITrainerService {
         ResponseEntity<Trainer> responseEntity = restTemplate.exchange(uri,
                                                                       HttpMethod.GET,
                                                                       null,
-                                                                      Trainer.class);
+                                                                       Trainer.class);
+        Trainer trainerToBeReturned = responseEntity.getBody();
 
-        return responseEntity.getBody();
+        AvatarData avatarData = avatarService.getAvatarData(userId);
 
+        trainerToBeReturned.setThumbnailUrl(avatarData.getThumbnailMediaUrl());
+        trainerToBeReturned.setAvatarUrl(avatarData.getAvatarMediaUrl());
+
+        return trainerToBeReturned;
     }
 }
