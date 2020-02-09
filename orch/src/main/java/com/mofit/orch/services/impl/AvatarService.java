@@ -39,12 +39,6 @@ public class AvatarService implements IAvatarService {
     @Value("${spring.http.multipart.max-file-size}")
     Long maxRequestFileSize;
 
-    @Value("${photos.defaultAvatarUrl}")
-    String defaultAvatarUrl;
-
-    @Value("${photos.defaultThumbnailUrl}")
-    String defaultThumbnailUrl;
-
     @Autowired
     public AvatarService(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplateBuilder = restTemplateBuilder;
@@ -118,30 +112,10 @@ public class AvatarService implements IAvatarService {
             new ParameterizedTypeReference<AvatarData>() {
             };
 
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setErrorHandler(new ResponseErrorHandler() {
-            @Override
-            public boolean hasError(ClientHttpResponse clientHttpResponse) {
-                return false;
-            }
-
-            @Override
-            public void handleError(ClientHttpResponse clientHttpResponse) {
-            }
-        });
-
-
         ResponseEntity<AvatarData> responseEntity = restTemplate.exchange(
             setAvatarUrl, HttpMethod.GET, null, responseType, userId);
 
-        if(responseEntity.getStatusCode().is2xxSuccessful()) {
-            return responseEntity.getBody();
-        }
-
-        return AvatarData.builder()
-            .avatarMediaUrl(defaultAvatarUrl)
-            .thumbnailMediaUrl(defaultThumbnailUrl)
-            .build();
+        return responseEntity.getBody();
     }
 
     @Override

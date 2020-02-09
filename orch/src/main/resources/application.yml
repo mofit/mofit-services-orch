@@ -14,11 +14,6 @@ security:
       secret-key: ENC(oOMhast5nvsa0og/3esr8/BNoa2i6FO0)
       expire-length: 90000000
 
-
-photos:
-  defaultAvatarUrl: 'http://mofit-storage.madnet-bg.com/userAvatars/defaultAvatar.jpg'
-  defaultThumbnailUrl: 'http://mofit-storage.madnet-bg.com/userAvatars/defaultThumbnail.jpeg'
-
 services:
     user:
       loginUser: http://localhost:8071/users/login
