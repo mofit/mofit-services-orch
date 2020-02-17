@@ -43,6 +43,9 @@ public class UserService implements IUserService {
     @Value("${services.user.signupUser}")
     String signupUserUrl;
 
+    @Value("${services.user.getUserById}")
+    String getUserByUserIdUrl;
+
     @Autowired
     public UserService(IUserDAO userDAO, PasswordEncoder passwordEncoder,
                        JwtTokenProvider jwtTokenProvider,
@@ -61,6 +64,19 @@ public class UserService implements IUserService {
         return userDAO.getUserByEmail(email)
             .orElseThrow(() -> new CustomClientException(
                 "There is no existing account with that email: " + email, HttpStatus.NOT_FOUND));
+    }
+
+    @Override
+    public User getUserByUserId(Integer userId) {
+        ParameterizedTypeReference<User> responseType = new ParameterizedTypeReference<User>() {};
+
+        ResponseEntity<User> responseEntity =
+            restTemplate.exchange(getUserByUserIdUrl,
+                                  HttpMethod.GET,
+                                  null,
+                                  responseType, userId);
+
+        return responseEntity.getBody();
     }
 
     @Override

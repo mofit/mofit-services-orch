@@ -10,6 +10,7 @@ import java.io.IOException;
 public interface IUserService {
 
     User getUserByEmail(String username);
+    User getUserByUserId(Integer userId);
     SignUserResponse loginUser(LoginUserRequest loginUserRequest);
     SignUserResponse createNewUser(SignupUserRequest userRequest) throws IOException;
 }

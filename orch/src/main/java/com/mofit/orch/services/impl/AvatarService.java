@@ -14,13 +14,10 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestOperations;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -32,6 +29,7 @@ public class AvatarService implements IAvatarService {
 
     private RestOperations restTemplate;
     private final RestTemplateBuilder restTemplateBuilder;
+    private final UserService userService;
 
     @Value("${services.media.setAvatar}")
     String setAvatarUrl;
@@ -40,8 +38,9 @@ public class AvatarService implements IAvatarService {
     Long maxRequestFileSize;
 
     @Autowired
-    public AvatarService(RestTemplateBuilder restTemplateBuilder) {
+    public AvatarService(RestTemplateBuilder restTemplateBuilder, UserService userService) {
         this.restTemplateBuilder = restTemplateBuilder;
+        this.userService = userService;
 
         restTemplate = restTemplateBuilder
             .errorHandler(new RestTemplateErrorHandler())
@@ -51,6 +50,8 @@ public class AvatarService implements IAvatarService {
     @Override
     public AvatarData uploadUserAvatar(Integer userId, MultipartFile file) {
         verifyFileSize(file);
+
+        userService.getUserByUserId(userId);
 
         ParameterizedTypeReference<AvatarData> responseType =
             new ParameterizedTypeReference<AvatarData>() {
@@ -80,6 +81,8 @@ public class AvatarService implements IAvatarService {
     @Override
     public AvatarData updateUserAvatar(Integer userId, MultipartFile file) {
         verifyFileSize(file);
+
+        userService.getUserByUserId(userId);
 
         ParameterizedTypeReference<AvatarData> responseType =
             new ParameterizedTypeReference<AvatarData>() {
@@ -129,6 +132,4 @@ public class AvatarService implements IAvatarService {
                                             + maxRequestFileSize, HttpStatus.BAD_REQUEST);
         }
     }
-
-
 }
