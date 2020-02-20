@@ -13,4 +13,5 @@ public interface IUserService {
     User getUserByUserId(Integer userId);
     SignUserResponse loginUser(LoginUserRequest loginUserRequest);
     SignUserResponse createNewUser(SignupUserRequest userRequest) throws IOException;
+    void updateUserPassword(Integer userId, String oldPassword, String newPassword);
 }

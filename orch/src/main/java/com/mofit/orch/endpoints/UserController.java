@@ -8,9 +8,12 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -44,6 +47,15 @@ public class UserController {
     @PostMapping("/login")
     public SignUserResponse loginUser(@RequestBody @Valid LoginUserRequest loginUserRequest) {
         return userService.loginUser(loginUserRequest);
+    }
+
+    @ApiOperation(value = "Update user password")
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("/password/{userId}")
+    public void updateUserPassword(@PathVariable Integer userId,
+                                   @RequestParam String oldPassword,
+                                   @RequestParam String newPassword) {
+        userService.updateUserPassword(userId, oldPassword, newPassword);
     }
 
 }

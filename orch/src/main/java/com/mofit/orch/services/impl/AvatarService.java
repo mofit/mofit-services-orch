@@ -27,8 +27,7 @@ import static com.mofit.orch.services.utils.FileUtils.getUserFileResource;
 @Service
 public class AvatarService implements IAvatarService {
 
-    private RestOperations restTemplate;
-    private final RestTemplateBuilder restTemplateBuilder;
+    private final RestOperations restTemplate;
     private final UserService userService;
 
     @Value("${services.media.setAvatar}")
@@ -39,7 +38,6 @@ public class AvatarService implements IAvatarService {
 
     @Autowired
     public AvatarService(RestTemplateBuilder restTemplateBuilder, UserService userService) {
-        this.restTemplateBuilder = restTemplateBuilder;
         this.userService = userService;
 
         restTemplate = restTemplateBuilder

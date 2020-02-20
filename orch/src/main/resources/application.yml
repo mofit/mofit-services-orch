@@ -19,6 +19,7 @@ services:
       loginUser: http://localhost:8071/users/login
       signupUser: http://localhost:8071/users/signup
       getUserById: http://localhost:8071/users/{userId}
+      updateUserPassword: http://localhost:8071/users/password/{userId}
       createTrainer: http://localhost:8071/users/trainer
       getTrainerByUserId: http://localhost:8071/users/trainer/{userId}
       createClient: http://localhost:8071/users/client

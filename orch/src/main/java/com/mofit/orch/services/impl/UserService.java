@@ -24,6 +24,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestOperations;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import static com.mofit.mainmofitapiservice.models.UserType.PLAIN_USER;
 
@@ -35,7 +37,6 @@ public class UserService implements IUserService {
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
     private RestOperations restTemplate;
-    private final RestTemplateBuilder restTemplateBuilder;
 
     @Value("${services.user.loginUser}")
     String loginUserUrl;
@@ -46,6 +47,9 @@ public class UserService implements IUserService {
     @Value("${services.user.getUserById}")
     String getUserByUserIdUrl;
 
+    @Value("${services.user.updateUserPassword}")
+    String updateUserPasswordUrl;
+
     @Autowired
     public UserService(IUserDAO userDAO, PasswordEncoder passwordEncoder,
                        JwtTokenProvider jwtTokenProvider,
@@ -54,7 +58,6 @@ public class UserService implements IUserService {
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenProvider = jwtTokenProvider;
         this.authenticationManager = authenticationManager;
-        this.restTemplateBuilder = restTemplateBuilder;
 
         restTemplate = restTemplateBuilder.errorHandler(new RestTemplateErrorHandler()).build();
     }
@@ -116,5 +119,23 @@ public class UserService implements IUserService {
                 userRequest.getEmail(), userRequest.getPermissions(), PLAIN_USER.name(), userId));
 
             return responseEntity.getBody();
+    }
+
+    @Override
+    public void updateUserPassword(Integer userId, String oldPassword, String newPassword) {
+        String userEmail = getUserByUserId(userId).getEmail();
+
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userEmail, oldPassword));
+
+        String newEncodedPassword = passwordEncoder.encode(newPassword);
+
+        UriComponents UriBuilder = UriComponentsBuilder
+            .fromUriString(updateUserPasswordUrl)
+            .queryParam("newPassword", newEncodedPassword).build();
+
+            restTemplate.exchange(UriBuilder.toUriString(),
+                                  HttpMethod.PUT,
+                                  null,
+                                  Object.class, userId);
     }
 }
