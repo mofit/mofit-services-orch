@@ -3,6 +3,7 @@ package com.mofit.orch.endpoints;
 import com.mofit.mainmofitapiservice.models.LoginUserRequest;
 import com.mofit.mainmofitapiservice.models.SignUserResponse;
 import com.mofit.mainmofitapiservice.models.SignupUserRequest;
+import com.mofit.mainmofitapiservice.models.UpdateUserPasswordRequest;
 import com.mofit.orch.services.api.IUserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,9 +54,8 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/password/{userId}")
     public void updateUserPassword(@PathVariable Integer userId,
-                                   @RequestParam String oldPassword,
-                                   @RequestParam String newPassword) {
-        userService.updateUserPassword(userId, oldPassword, newPassword);
+                                   @RequestBody UpdateUserPasswordRequest request) {
+        userService.updateUserPassword(userId, request);
     }
 
 }

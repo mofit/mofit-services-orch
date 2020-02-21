@@ -5,6 +5,7 @@ import com.mofit.mainmofitapiservice.models.CustomClientException;
 import com.mofit.mainmofitapiservice.models.LoginUserRequest;
 import com.mofit.mainmofitapiservice.models.SignUserResponse;
 import com.mofit.mainmofitapiservice.models.SignupUserRequest;
+import com.mofit.mainmofitapiservice.models.UpdateUserPasswordRequest;
 import com.mofit.mainmofitapiservice.models.User;
 import com.mofit.orch.dao.IUserDAO;
 import com.mofit.orch.exceptions.RestTemplateErrorHandler;
@@ -122,12 +123,12 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void updateUserPassword(Integer userId, String oldPassword, String newPassword) {
+    public void updateUserPassword(Integer userId, UpdateUserPasswordRequest updateRequest) {
         String userEmail = getUserByUserId(userId).getEmail();
 
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userEmail, oldPassword));
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userEmail, updateRequest.getOldPassword()));
 
-        String newEncodedPassword = passwordEncoder.encode(newPassword);
+        String newEncodedPassword = passwordEncoder.encode(updateRequest.getNewPassword());
 
         UriComponents UriBuilder = UriComponentsBuilder
             .fromUriString(updateUserPasswordUrl)
