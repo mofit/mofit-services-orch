@@ -28,6 +28,7 @@ services:
       insertAccessModules: http://localhost:8071/access/modules
       insertUserPermissions: http://localhost:8071/access/access/{userId}/permissions
       getCities: http://localhost:8071/cities
+      getSports: http://localhost:8071/sports
     media:
       setAvatar: http://localhost:8072/media/avatar/{userId}
 
