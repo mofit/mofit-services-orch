@@ -26,6 +26,8 @@ public class ClientService implements IClientService {
     private final RestOperations restTemplate;
     private final RestTemplateBuilder restTemplateBuilder;
     private final AvatarService avatarService;
+    private final ClientSportService clientSportService;
+
 
     @Value("${services.user.createClient}")
     String createClientUrl;
@@ -34,21 +36,28 @@ public class ClientService implements IClientService {
     String getClientByUserIdUrl;
 
     @Autowired
-    public ClientService(RestTemplateBuilder restTemplateBuilder, AvatarService avatarService) {
+    public ClientService(RestTemplateBuilder restTemplateBuilder, AvatarService avatarService, ClientSportService clientSportService) {
         this.restTemplateBuilder = restTemplateBuilder;
         restTemplate = restTemplateBuilder.errorHandler(new RestTemplateErrorHandler()).build();
         this.avatarService = avatarService;
+        this.clientSportService = clientSportService;
     }
 
     @Override
     public Integer createNewClient(Client client) {
-        ResponseEntity<Integer> responseEntity =
+        ResponseEntity<Integer> createClientResponseEntity =
             restTemplate.exchange(createClientUrl,
                                   HttpMethod.POST,
                                   new HttpEntity<>(client),
                                   Integer.class);
 
-        return responseEntity.getBody();
+        Integer createdClientId = createClientResponseEntity.getBody();
+
+        if (!client.getPreferredSports().isEmpty()) {
+            clientSportService.insertClientSports(createdClientId, client.getPreferredSports());
+        }
+
+        return createdClientId;
     }
 
     @Override
@@ -70,6 +79,8 @@ public class ClientService implements IClientService {
 
         clientToBeReturned.setThumbnailUrl(avatarData.getThumbnailMediaUrl());
         clientToBeReturned.setAvatarUrl(avatarData.getAvatarMediaUrl());
+
+        clientToBeReturned.setPreferredSports(clientSportService.getClientSports(clientToBeReturned.getClientId()));
 
         return clientToBeReturned;
     }

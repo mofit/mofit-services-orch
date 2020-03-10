@@ -1,7 +1,7 @@
 package com.mofit.orch.endpoints;
 
-import com.mofit.mainmofitapiservice.models.Sport;
 import com.mofit.orch.services.api.ISportService;
+import com.mofit.sport.models.Sport;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
