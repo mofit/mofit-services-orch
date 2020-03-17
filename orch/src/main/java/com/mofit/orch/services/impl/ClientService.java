@@ -3,6 +3,7 @@ package com.mofit.orch.services.impl;
 import com.mofit.mainmofitapiservice.models.Client;
 import com.mofit.media.models.AvatarData;
 import com.mofit.orch.exceptions.RestTemplateErrorHandler;
+import com.mofit.orch.models.ClientProfile;
 import com.mofit.orch.services.api.IClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,44 +45,41 @@ public class ClientService implements IClientService {
     }
 
     @Override
-    public Integer createNewClient(Client client) {
+    public Integer createNewClient(ClientProfile clientProfile) {
         ResponseEntity<Integer> createClientResponseEntity =
             restTemplate.exchange(createClientUrl,
                                   HttpMethod.POST,
-                                  new HttpEntity<>(client),
+                                  new HttpEntity<>(clientProfile.getClient()),
                                   Integer.class);
 
         Integer createdClientId = createClientResponseEntity.getBody();
 
-        if (!client.getPreferredSports().isEmpty()) {
-            clientSportService.insertClientSports(createdClientId, client.getPreferredSports());
+        if (!clientProfile.getPreferredSports().isEmpty()) {
+            clientSportService.insertClientSports(createdClientId, clientProfile.getPreferredSports());
         }
 
         return createdClientId;
     }
 
     @Override
-    public Client getClientByUserId(Integer userId) {
+    public ClientProfile getClientByUserId(Integer userId) {
         Map<String, Object> params = new HashMap<>();
         params.put(USER_ID_KEY, userId);
 
-        URI uri = UriComponentsBuilder.fromHttpUrl(getClientByUserIdUrl)
+        ClientProfile clientProfile = new ClientProfile();
+
+        URI getClientUrl = UriComponentsBuilder.fromHttpUrl(getClientByUserIdUrl)
             .buildAndExpand(params)
             .toUri();
 
-        ResponseEntity<Client> responseEntity = restTemplate.exchange(uri,
+        ResponseEntity<Client> responseEntity = restTemplate.exchange(getClientUrl,
                                                                       HttpMethod.GET,
                                                                       null,
                                                                       Client.class);
-        Client clientToBeReturned = responseEntity.getBody();
+        clientProfile.setClient(responseEntity.getBody());
 
-        AvatarData avatarData = avatarService.getAvatarData(userId);
+        clientProfile.setPreferredSports(clientSportService.getClientSports(clientProfile.getClient().getClientId()));
 
-        clientToBeReturned.setThumbnailUrl(avatarData.getThumbnailMediaUrl());
-        clientToBeReturned.setAvatarUrl(avatarData.getAvatarMediaUrl());
-
-        clientToBeReturned.setPreferredSports(clientSportService.getClientSports(clientToBeReturned.getClientId()));
-
-        return clientToBeReturned;
+        return clientProfile;
     }
 }

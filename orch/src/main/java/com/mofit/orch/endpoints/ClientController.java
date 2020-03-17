@@ -1,6 +1,7 @@
 package com.mofit.orch.endpoints;
 
 import com.mofit.mainmofitapiservice.models.Client;
+import com.mofit.orch.models.ClientProfile;
 import com.mofit.orch.services.api.IClientService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,14 +30,14 @@ public class ClientController {
     @ApiOperation(value = "Creates new Client")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/client")
-    public Integer createNewClient(@RequestBody Client client) {
+    public Integer createNewClient(@RequestBody ClientProfile client) {
         return clientService.createNewClient(client);
     }
 
     @ApiOperation(value = "Get Client by UserId")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("client/{userId}")
-    public Client getClientByUserId(@PathVariable Integer userId) {
+    public ClientProfile getClientByUserId(@PathVariable Integer userId) {
         return clientService.getClientByUserId(userId);
     }
 

@@ -2,6 +2,7 @@ package com.mofit.orch.endpoints;
 
 import com.mofit.media.models.AvatarData;
 import com.mofit.orch.services.api.IAvatarService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,7 +34,7 @@ public class AvatarController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/avatar/{userId}")
     public AvatarData uploadAvatar(@PathVariable Integer userId,
-                                             @RequestPart(required = false) MultipartFile file){
+                                   @RequestPart(required = false) MultipartFile file){
 
         return avatarService.uploadUserAvatar(userId, file);
     }
@@ -42,7 +43,7 @@ public class AvatarController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/avatar/{userId}")
     public AvatarData updateAvatar(@PathVariable Integer userId,
-                                             @RequestPart(required = false) MultipartFile file){
+                                   @RequestPart(required = false) MultipartFile file){
 
         return avatarService.updateUserAvatar(userId, file);
     }

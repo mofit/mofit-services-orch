@@ -20,7 +20,7 @@ public class SportService implements ISportService {
 
     private RestOperations restTemplate;
 
-    @Value("${services.user.getSports}")
+    @Value("${services.sport.getSports}")
     String getSportsUrl;
 
     @Autowired
