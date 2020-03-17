@@ -1,6 +1,5 @@
 package com.mofit.orch.services.impl;
 
-import com.mofit.mainmofitapiservice.models.Client;
 import com.mofit.mainmofitapiservice.models.Trainer;
 import com.mofit.media.models.AvatarData;
 import com.mofit.orch.exceptions.RestTemplateErrorHandler;
@@ -66,11 +65,6 @@ public class TrainerService implements ITrainerService {
                                                                       null,
                                                                        Trainer.class);
         Trainer trainerToBeReturned = responseEntity.getBody();
-
-        AvatarData avatarData = avatarService.getAvatarData(userId);
-
-        trainerToBeReturned.setThumbnailUrl(avatarData.getThumbnailMediaUrl());
-        trainerToBeReturned.setAvatarUrl(avatarData.getAvatarMediaUrl());
 
         return trainerToBeReturned;
     }
