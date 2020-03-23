@@ -1,7 +1,7 @@
 package com.mofit.orch.security;
 
-import com.mofit.mainmofitapiservice.models.User;
 import com.mofit.orch.services.api.IUserService;
+import com.mofit.user.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;

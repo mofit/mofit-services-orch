@@ -1,9 +1,9 @@
 package com.mofit.orch.services.impl;
 
-import com.mofit.mainmofitapiservice.models.AccessModule;
-import com.mofit.mainmofitapiservice.models.Permission;
 import com.mofit.orch.exceptions.RestTemplateErrorHandler;
 import com.mofit.orch.services.api.IPermissionService;
+import com.mofit.user.models.AccessModule;
+import com.mofit.user.models.Permission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;

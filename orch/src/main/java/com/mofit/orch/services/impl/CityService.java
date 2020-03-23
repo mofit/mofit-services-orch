@@ -1,8 +1,8 @@
 package com.mofit.orch.services.impl;
 
-import com.mofit.mainmofitapiservice.models.City;
 import com.mofit.orch.exceptions.RestTemplateErrorHandler;
 import com.mofit.orch.services.api.ICityService;
+import com.mofit.user.models.City;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;

@@ -1,8 +1,7 @@
 package com.mofit.orch.exceptions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mofit.mainmofitapiservice.models.CustomClientException;
-import com.mofit.mainmofitapiservice.models.GenericErrorResponse;
+import com.mofit.user.models.GenericErrorResponse;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 
@@ -20,7 +19,8 @@ public class RestTemplateErrorHandler extends DefaultResponseErrorHandler {
                 String httpBodyResponse = reader.lines().collect(Collectors.joining(""));
 
                 ObjectMapper mapper = new ObjectMapper();
-                GenericErrorResponse errorResponse = mapper.readValue(httpBodyResponse, GenericErrorResponse.class);
+                GenericErrorResponse
+                    errorResponse = mapper.readValue(httpBodyResponse, GenericErrorResponse.class);
 
                 throw new CustomClientException(errorResponse.getMessage(), response.getStatusCode());
             }

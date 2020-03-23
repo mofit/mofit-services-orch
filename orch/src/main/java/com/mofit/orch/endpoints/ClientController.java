@@ -1,6 +1,5 @@
 package com.mofit.orch.endpoints;
 
-import com.mofit.mainmofitapiservice.models.Client;
 import com.mofit.orch.models.ClientProfile;
 import com.mofit.orch.services.api.IClientService;
 import io.swagger.annotations.ApiOperation;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin // TODO: Investigate if we need CORS for all controllers/endpoint and if yes, set global
-@RequestMapping("/users")
+@RequestMapping("/clients")
 public class ClientController {
 
     private IClientService clientService;
@@ -29,16 +28,16 @@ public class ClientController {
 
     @ApiOperation(value = "Creates new Client")
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/client")
+    @PostMapping
     public Integer createNewClient(@RequestBody ClientProfile client) {
         return clientService.createNewClient(client);
     }
 
     @ApiOperation(value = "Get Client by UserId")
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("client/{userId}")
-    public ClientProfile getClientByUserId(@PathVariable Integer userId) {
-        return clientService.getClientByUserId(userId);
+    @GetMapping("/{clientId}")
+    public ClientProfile getClientByUserId(@PathVariable Integer clientId) {
+        return clientService.getClientById(clientId);
     }
 
 }

@@ -1,7 +1,7 @@
 package com.mofit.orch.endpoints;
 
-import com.mofit.mainmofitapiservice.models.City;
 import com.mofit.orch.services.api.ICityService;
+import com.mofit.user.models.City;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

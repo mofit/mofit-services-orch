@@ -1,9 +1,7 @@
 package com.mofit.orch.dao;
-
-
-import com.mofit.mainmofitapiservice.models.User;
 import com.mofit.orch.dao.util.SqlQueries;
 import com.mofit.orch.dao.util.UserRowMapper;
+import com.mofit.user.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -12,7 +10,6 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
 
 @Service
 public class UserDAO implements IUserDAO {

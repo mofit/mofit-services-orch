@@ -1,8 +1,6 @@
 package com.mofit.orch.dao;
 
-
-import com.mofit.mainmofitapiservice.models.User;
-
+import com.mofit.user.models.User;
 import java.util.Optional;
 
 public interface IUserDAO {

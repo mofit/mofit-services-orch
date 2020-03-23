@@ -2,7 +2,6 @@ package com.mofit.orch.endpoints;
 
 import com.mofit.media.models.AvatarData;
 import com.mofit.orch.services.api.IAvatarService;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

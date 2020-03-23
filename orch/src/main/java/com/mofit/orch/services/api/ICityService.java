@@ -1,6 +1,6 @@
 package com.mofit.orch.services.api;
 
-import com.mofit.mainmofitapiservice.models.City;
+import com.mofit.user.models.City;
 
 import java.util.List;
 

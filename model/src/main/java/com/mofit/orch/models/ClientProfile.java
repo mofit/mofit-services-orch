@@ -1,8 +1,8 @@
 package com.mofit.orch.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.mofit.mainmofitapiservice.models.Client;
 import com.mofit.sport.models.ClientSport;
+import com.mofit.user.models.Client;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +16,6 @@ import java.util.List;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ClientProfile {
-
     private Client client;
     private List<ClientSport> preferredSports;
 }

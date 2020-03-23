@@ -1,7 +1,7 @@
 package com.mofit.orch.services.impl;
 
-import com.mofit.mainmofitapiservice.models.CustomClientException;
 import com.mofit.media.models.AvatarData;
+import com.mofit.orch.exceptions.CustomClientException;
 import com.mofit.orch.exceptions.RestTemplateErrorHandler;
 import com.mofit.orch.services.api.IAvatarService;
 import org.springframework.beans.factory.annotation.Autowired;

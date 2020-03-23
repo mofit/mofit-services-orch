@@ -1,8 +1,8 @@
 package com.mofit.orch.endpoints;
 
-import com.mofit.mainmofitapiservice.models.AccessModule;
-import com.mofit.mainmofitapiservice.models.Permission;
 import com.mofit.orch.services.api.IPermissionService;
+import com.mofit.user.models.AccessModule;
+import com.mofit.user.models.Permission;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,10 +1,10 @@
 package com.mofit.orch.endpoints;
 
-import com.mofit.mainmofitapiservice.models.LoginUserRequest;
-import com.mofit.mainmofitapiservice.models.SignUserResponse;
-import com.mofit.mainmofitapiservice.models.SignupUserRequest;
-import com.mofit.mainmofitapiservice.models.UpdateUserPasswordRequest;
 import com.mofit.orch.services.api.IUserService;
+import com.mofit.user.models.LoginUserRequest;
+import com.mofit.user.models.SignUserResponse;
+import com.mofit.user.models.SignupUserRequest;
+import com.mofit.user.models.UpdateUserPasswordRequest;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

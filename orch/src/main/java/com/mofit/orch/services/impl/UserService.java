@@ -1,16 +1,15 @@
 package com.mofit.orch.services.impl;
 
-
-import com.mofit.mainmofitapiservice.models.CustomClientException;
-import com.mofit.mainmofitapiservice.models.LoginUserRequest;
-import com.mofit.mainmofitapiservice.models.SignUserResponse;
-import com.mofit.mainmofitapiservice.models.SignupUserRequest;
-import com.mofit.mainmofitapiservice.models.UpdateUserPasswordRequest;
-import com.mofit.mainmofitapiservice.models.User;
 import com.mofit.orch.dao.IUserDAO;
+import com.mofit.orch.exceptions.CustomClientException;
 import com.mofit.orch.exceptions.RestTemplateErrorHandler;
 import com.mofit.orch.security.JwtTokenProvider;
 import com.mofit.orch.services.api.IUserService;
+import com.mofit.user.models.LoginUserRequest;
+import com.mofit.user.models.SignUserResponse;
+import com.mofit.user.models.SignupUserRequest;
+import com.mofit.user.models.UpdateUserPasswordRequest;
+import com.mofit.user.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -28,7 +27,7 @@ import org.springframework.web.client.RestOperations;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import static com.mofit.mainmofitapiservice.models.UserType.PLAIN_USER;
+import java.util.Collections;
 
 @Service
 public class UserService implements IUserService {
@@ -94,9 +93,8 @@ public class UserService implements IUserService {
 
         return SignUserResponse.builder()
             .userId(loggedUser.getUserId())
-            .userType(loggedUser.getUserType())
             .token(jwtTokenProvider.createToken(
-                email, loggedUser.getPermissions(), loggedUser.getUserType().name(), loggedUser.getUserId()))
+                email, loggedUser.getPermissions(), loggedUser.getUserTypeIds(), loggedUser.getUserId()))
             .build();
     }
 
@@ -117,7 +115,7 @@ public class UserService implements IUserService {
 
             Integer userId = responseEntity.getBody().getUserId();
             responseEntity.getBody().setToken(jwtTokenProvider.createToken(
-                userRequest.getEmail(), userRequest.getPermissions(), PLAIN_USER.name(), userId));
+                userRequest.getEmail(), userRequest.getPermissions(), Collections.emptyList(), userId));
 
             return responseEntity.getBody();
     }

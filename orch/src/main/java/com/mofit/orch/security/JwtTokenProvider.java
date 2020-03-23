@@ -1,6 +1,7 @@
 package com.mofit.orch.security;
 
-import com.mofit.mainmofitapiservice.models.Permission;
+import com.mofit.user.models.Permission;
+import com.mofit.user.models.UserTypeId;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -50,12 +51,12 @@ public class JwtTokenProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public String createToken(String username, List<Permission> permissions, String userType, Integer userId) {
+    public String createToken(String username, List<Permission> permissions, List<UserTypeId> userTypeIds, Integer userId) {
 
         Claims claims = Jwts.claims().setSubject(username);
         claims.put("auth", permissions.stream().map(s -> new SimpleGrantedAuthority(
             s.getAuthority())).collect(toList()));
-        claims.put("userType", userType);
+        claims.put("userTypeIds", userTypeIds);
         claims.put("userId", userId);
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);

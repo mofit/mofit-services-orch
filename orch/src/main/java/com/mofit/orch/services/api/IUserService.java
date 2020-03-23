@@ -1,10 +1,10 @@
 package com.mofit.orch.services.api;
 
-import com.mofit.mainmofitapiservice.models.LoginUserRequest;
-import com.mofit.mainmofitapiservice.models.SignUserResponse;
-import com.mofit.mainmofitapiservice.models.SignupUserRequest;
-import com.mofit.mainmofitapiservice.models.UpdateUserPasswordRequest;
-import com.mofit.mainmofitapiservice.models.User;
+import com.mofit.user.models.LoginUserRequest;
+import com.mofit.user.models.SignUserResponse;
+import com.mofit.user.models.SignupUserRequest;
+import com.mofit.user.models.UpdateUserPasswordRequest;
+import com.mofit.user.models.User;
 
 import java.io.IOException;
 

@@ -1,7 +1,7 @@
 package com.mofit.orch.services.api;
 
-import com.mofit.mainmofitapiservice.models.AccessModule;
-import com.mofit.mainmofitapiservice.models.Permission;
+import com.mofit.user.models.AccessModule;
+import com.mofit.user.models.Permission;
 
 import java.util.List;
 
