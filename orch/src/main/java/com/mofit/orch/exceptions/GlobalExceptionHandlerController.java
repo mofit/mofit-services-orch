@@ -15,12 +15,15 @@ import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 @RestControllerAdvice
 public class GlobalExceptionHandlerController {
 
+    public static final String BAD_CREDENTIALS_CUSTOM_MESSAGE =
+        "This email address and password combination doesn't exist. Please try again.";
+
     // Add exception handler for BadCredentialsException
     @ExceptionHandler
     public ResponseEntity<GenericErrorResponse> handleBadCredentialsException(
         BadCredentialsException ex) {
         GenericErrorResponse response = new GenericErrorResponse(HttpStatus.BAD_REQUEST.value(),
-                                                                 ex.getMessage(), ISO_LOCAL_DATE_TIME.format(LocalDateTime.now()));
+            BAD_CREDENTIALS_CUSTOM_MESSAGE, ISO_LOCAL_DATE_TIME.format(LocalDateTime.now()));
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
