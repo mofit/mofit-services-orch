@@ -19,15 +19,15 @@ public class UserRowMapper implements RowMapper<User> {
     public User mapRow(ResultSet rs, int rowNum) throws SQLException {
         User user = new Client();
 
-        user.setUserId(rs.getInt("user_id"));
+        user.setUserId(rs.getInt("userId"));
         user.setEmail(rs.getString("email"));
         user.setPassword(rs.getString("password"));
         List<Permission> userPermissions = new ArrayList<>();
         List<UserTypeId> userTypeIds = new ArrayList<>();
 
         // Get it as objects, because rs.getInt() will return 0 in case of null column
-        Integer clientId = (Integer) rs.getObject("client_id");
-        Integer trainerId = (Integer) rs.getObject("trainer_id");
+        Integer clientId = (Integer) rs.getObject("clientId");
+        Integer trainerId = (Integer) rs.getObject("trainerId");
 
         if(clientId != null) {
             userTypeIds.add(
@@ -41,7 +41,7 @@ public class UserRowMapper implements RowMapper<User> {
 
         do {
             userPermissions.add(Permission.builder()
-                                    .moduleId(rs.getInt("module_id"))
+                                    .moduleId(rs.getInt("moduleId"))
                                     .permission(rs.getString("permission"))
                                     .module(rs.getString("name"))
                                     .build());

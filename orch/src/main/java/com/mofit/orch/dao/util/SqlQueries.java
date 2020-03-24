@@ -7,21 +7,21 @@ public final class SqlQueries {
 
     // Database tables
     private static final String USER_TABLE = "user";
-    private static final String USER_PERMISSIONS_TABLE = "user_permissions";
+    private static final String USER_PERMISSIONS_TABLE = "userpermission";
     private static final String ACCESS_MODULES_TABLE = "accessmodule";
 
     // User columns (common user columns)
-    private static final String USER_ID = "user_id";
+    private static final String USER_ID = "userId";
     private static final String USER_EMAIL = "email";
     private static final String USER_PASSWORD = "password";
-    private static final String ACCESS_MODULE_ID = "module_id";
+    private static final String ACCESS_MODULE_ID = "moduleId";
     private static final String ACCESS_MODULE_NAME = "name";
     private static final String MODULE_PERMISSION = "permission";
     private static final String CLIENT_TABLE = "client";
     private static final String TRAINER_TABLE = "trainer";
 
-    private static final String TRAINER_ID = "trainer_id";
-    private static final String CLIENT_ID = "client_id";
+    private static final String TRAINER_ID = "trainerId";
+    private static final String CLIENT_ID = "clientId";
 
     // User queries
     public static final String GET_USER_BY_EMAIL = "SELECT u."

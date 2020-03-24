@@ -95,6 +95,7 @@ public class UserService implements IUserService {
             .userId(loggedUser.getUserId())
             .token(jwtTokenProvider.createToken(
                 email, loggedUser.getPermissions(), loggedUser.getUserTypeIds(), loggedUser.getUserId()))
+            .userTypeIds(loggedUser.getUserTypeIds())
             .build();
     }
 
