@@ -24,6 +24,7 @@ services:
       getTrainerById: http://localhost:8071/trainers/{trainerId}
       createClient: http://localhost:8071/clients
       getClientById: http://localhost:8071/clients/{clientId}
+      updateClientCityId: http://localhost:8071/clients/{clientId}/city/{cityId}
       getAccessModules: http://localhost:8071/access/modules
       insertAccessModules: http://localhost:8071/access/modules
       insertUserPermissions: http://localhost:8071/access/access/{userId}/permissions

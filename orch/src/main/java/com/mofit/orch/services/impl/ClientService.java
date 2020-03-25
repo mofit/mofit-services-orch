@@ -25,6 +25,9 @@ public class ClientService implements IClientService {
     @Value("${services.user.getClientById}")
     String getClientByIdUrl;
 
+    @Value("${services.user.updateClientCityId}")
+    String updateClientCityIdUrl;
+
     @Autowired
     public ClientService(RestTemplateBuilder restTemplateBuilder, ClientSportService clientSportService) {
         restTemplate = restTemplateBuilder.errorHandler(new RestTemplateErrorHandler()).build();
@@ -41,7 +44,7 @@ public class ClientService implements IClientService {
 
         Integer createdClientId = createClientResponseEntity.getBody();
 
-        if (!clientProfile.getPreferredSports().isEmpty()) {
+        if (!clientProfile.getPreferredSports().isEmpty() || clientProfile.getPreferredSports() != null) {
             clientSportService.insertClientSports(createdClientId, clientProfile.getPreferredSports());
         }
 
@@ -51,7 +54,6 @@ public class ClientService implements IClientService {
     @Override
     public ClientProfile getClientById(Integer clientId) {
         ClientProfile clientProfile = new ClientProfile();
-
         ResponseEntity<Client> responseEntity = restTemplate.exchange(getClientByIdUrl,
                                                                       HttpMethod.GET, null,
                                                                       Client.class, clientId);
@@ -60,5 +62,10 @@ public class ClientService implements IClientService {
             clientSportService.getClientSports(clientProfile.getClient().getClientId()));
 
         return clientProfile;
+    }
+
+    @Override
+    public void updateClientCityId(Integer clientId, Integer cityId) {
+        restTemplate.exchange(updateClientCityIdUrl, HttpMethod.PUT, null, Void.class, clientId, cityId);
     }
 }
