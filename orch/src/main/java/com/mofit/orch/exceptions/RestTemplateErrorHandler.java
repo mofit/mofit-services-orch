@@ -1,7 +1,7 @@
 package com.mofit.orch.exceptions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mofit.user.models.GenericErrorResponse;
+import com.mofit.sport.models.GenericErrorResponse;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 
@@ -24,6 +24,11 @@ public class RestTemplateErrorHandler extends DefaultResponseErrorHandler {
 
                 throw new CustomClientException(errorResponse.getMessage(), response.getStatusCode());
             }
+
+
+        }
+        else if(response.getStatusCode().is5xxServerError()) {
+            //TODO: Implement support here
         }
     }
 }

@@ -4,9 +4,11 @@ import com.mofit.orch.exceptions.RestTemplateErrorHandler;
 import com.mofit.orch.models.ClientProfile;
 import com.mofit.orch.services.api.IClientService;
 import com.mofit.user.models.Client;
+import com.mofit.user.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -54,9 +56,11 @@ public class ClientService implements IClientService {
     @Override
     public ClientProfile getClientById(Integer clientId) {
         ClientProfile clientProfile = new ClientProfile();
+        ParameterizedTypeReference<Client> responseType =
+            new ParameterizedTypeReference<Client>() {};
         ResponseEntity<Client> responseEntity = restTemplate.exchange(getClientByIdUrl,
                                                                       HttpMethod.GET, null,
-                                                                      Client.class, clientId);
+                                                                      responseType, clientId);
         clientProfile.setClient(responseEntity.getBody());
         clientProfile.setPreferredSports(
             clientSportService.getClientSports(clientProfile.getClient().getClientId()));
