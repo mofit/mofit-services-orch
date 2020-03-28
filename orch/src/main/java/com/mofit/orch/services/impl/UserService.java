@@ -10,6 +10,7 @@ import com.mofit.user.models.SignUserResponse;
 import com.mofit.user.models.SignupUserRequest;
 import com.mofit.user.models.UpdateUserPasswordRequest;
 import com.mofit.user.models.User;
+import com.mofit.user.models.UserPermission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -28,6 +29,7 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Collections;
+import java.util.List;
 
 @Service
 public class UserService implements IUserService {
@@ -94,7 +96,7 @@ public class UserService implements IUserService {
         return SignUserResponse.builder()
             .userId(loggedUser.getUserId())
             .token(jwtTokenProvider.createToken(
-                email, loggedUser.getPermissions(), loggedUser.getUserTypeIds(), loggedUser.getUserId()))
+                email, loggedUser.getUserPermissions(), loggedUser.getUserTypeIds(), loggedUser.getUserId()))
             .userTypeIds(loggedUser.getUserTypeIds())
             .build();
     }
@@ -115,8 +117,11 @@ public class UserService implements IUserService {
                                       responseType);
 
             Integer userId = responseEntity.getBody().getUserId();
+
+            List<UserPermission> userPermissions = getUserByUserId(userId).getUserPermissions();
+
             responseEntity.getBody().setToken(jwtTokenProvider.createToken(
-                userRequest.getEmail(), userRequest.getPermissions(), Collections.emptyList(), userId));
+                userRequest.getEmail(), userPermissions, Collections.emptyList(), userId));
 
             return responseEntity.getBody();
     }

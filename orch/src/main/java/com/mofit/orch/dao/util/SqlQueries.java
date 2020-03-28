@@ -17,6 +17,8 @@ public final class SqlQueries {
     private static final String ACCESS_MODULE_ID = "moduleId";
     private static final String ACCESS_MODULE_NAME = "name";
     private static final String MODULE_PERMISSION = "permission";
+    private static final String USER_PERMISSION_ID = "userPermissionId";
+
     private static final String CLIENT_TABLE = "client";
     private static final String TRAINER_TABLE = "trainer";
 
@@ -32,6 +34,7 @@ public final class SqlQueries {
         + TRAINER_ID + ", p."
         + ACCESS_MODULE_ID + ", m."
         + ACCESS_MODULE_NAME + ", p."
+        + USER_PERMISSION_ID + ", p."
         + MODULE_PERMISSION + " FROM " + USER_TABLE + " AS u"
         + " LEFT JOIN " + CLIENT_TABLE + " AS c ON u." + USER_ID + "=c." + USER_ID
         + " LEFT JOIN " + TRAINER_TABLE + " AS t ON u." + USER_ID + "=t." + USER_ID

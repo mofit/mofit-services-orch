@@ -3,6 +3,7 @@ package com.mofit.orch.endpoints;
 import com.mofit.orch.services.api.IPermissionService;
 import com.mofit.user.models.AccessModule;
 import com.mofit.user.models.Permission;
+import com.mofit.user.models.UserPermission;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -48,7 +49,7 @@ public class PermissionsController {
     @ApiOperation(value = "Insert User permissions")
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/access/{userId}/permissions")
-    public void loginUser(@PathVariable Integer userId, @RequestBody @Valid List<Permission> permissions) {
+    public void loginUser(@PathVariable Integer userId, @RequestBody @Valid List<UserPermission> permissions) {
         permissionService.insertUserPermissions(userId, permissions);
     }
 }

@@ -4,6 +4,7 @@ import com.mofit.orch.exceptions.RestTemplateErrorHandler;
 import com.mofit.orch.services.api.IPermissionService;
 import com.mofit.user.models.AccessModule;
 import com.mofit.user.models.Permission;
+import com.mofit.user.models.UserPermission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -74,7 +75,7 @@ public class PermissionService implements IPermissionService {
     }
 
     @Override
-    public void insertUserPermissions(Integer userId, List<Permission> permissions) {
+    public void insertUserPermissions(Integer userId, List<UserPermission> permissions) {
         Map<String, Object> params = new HashMap<>();
         params.put(USER_ID_KEY, userId);
 

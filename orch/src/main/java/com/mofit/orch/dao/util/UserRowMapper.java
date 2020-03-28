@@ -1,8 +1,10 @@
 package com.mofit.orch.dao.util;
 
+import com.mofit.user.models.AccessModule;
 import com.mofit.user.models.Client;
 import com.mofit.user.models.Permission;
 import com.mofit.user.models.User;
+import com.mofit.user.models.UserPermission;
 import com.mofit.user.models.UserType;
 import com.mofit.user.models.UserTypeId;
 import org.springframework.jdbc.core.RowMapper;
@@ -17,12 +19,12 @@ public class UserRowMapper implements RowMapper<User> {
 
     @Override
     public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-        User user = new Client();
+        User user = new User();
 
         user.setUserId(rs.getInt("userId"));
         user.setEmail(rs.getString("email"));
         user.setPassword(rs.getString("password"));
-        List<Permission> userPermissions = new ArrayList<>();
+        List<UserPermission> userPermissions = new ArrayList<>();
         List<UserTypeId> userTypeIds = new ArrayList<>();
 
         // Get it as objects, because rs.getInt() will return 0 in case of null column
@@ -40,15 +42,18 @@ public class UserRowMapper implements RowMapper<User> {
         }
 
         do {
-            userPermissions.add(Permission.builder()
-                                    .moduleId(rs.getInt("moduleId"))
-                                    .permission(rs.getString("permission"))
-                                    .module(rs.getString("name"))
-                                    .build());
+            userPermissions.add(UserPermission.builder()
+                .accessModule(AccessModule.builder()
+                          .moduleId(rs.getInt("moduleId"))
+                          .moduleName(rs.getString("name"))
+                          .build())
+                .permission(Permission.valueOf(rs.getString("permission")))
+                .userPermissionId(rs.getInt("userPermissionId"))
+                .build());
         } while (rs.next());
 
         user.setUserTypeIds(userTypeIds);
-        user.setPermissions(userPermissions.stream().distinct().collect(Collectors.toList()));
+        user.setUserPermissions(userPermissions.stream().distinct().collect(Collectors.toList()));
         return user;
     }
 }
