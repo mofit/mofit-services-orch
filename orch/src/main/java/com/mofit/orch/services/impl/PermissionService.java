@@ -3,7 +3,6 @@ package com.mofit.orch.services.impl;
 import com.mofit.orch.exceptions.RestTemplateErrorHandler;
 import com.mofit.orch.services.api.IPermissionService;
 import com.mofit.user.models.AccessModule;
-import com.mofit.user.models.Permission;
 import com.mofit.user.models.UserPermission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,7 +36,10 @@ public class PermissionService implements IPermissionService {
     String insertAccessModulesUrl;
 
     @Value("${services.user.insertUserPermissions}")
-    String insertUserPermissions;
+    String insertUserPermissionsUrl;
+
+    @Value("${services.user.getUserPermissionsById}")
+    String getUserPermissionsByIdUrl;
 
     @Autowired
     public PermissionService(RestTemplateBuilder restTemplateBuilder) {
@@ -47,7 +49,6 @@ public class PermissionService implements IPermissionService {
 
     @Override
     public List<AccessModule> getAccessModules() {
-
         ParameterizedTypeReference<List<AccessModule>> responseType =
             new ParameterizedTypeReference<List<AccessModule>>() {
             };
@@ -79,10 +80,25 @@ public class PermissionService implements IPermissionService {
         Map<String, Object> params = new HashMap<>();
         params.put(USER_ID_KEY, userId);
 
-        URI uri = UriComponentsBuilder.fromHttpUrl(insertUserPermissions)
+        URI uri = UriComponentsBuilder.fromHttpUrl(insertUserPermissionsUrl)
             .buildAndExpand(params)
             .toUri();
 
         restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(permissions), String.class);
+    }
+
+    @Override
+    public List<UserPermission> getUserPermissionsByUserId(Integer userId) {
+        ParameterizedTypeReference<List<UserPermission>> responseType =
+            new ParameterizedTypeReference<List<UserPermission>>() {
+            };
+
+        ResponseEntity<List<UserPermission>> responseEntity =
+            restTemplate.exchange(getUserPermissionsByIdUrl,
+                                  HttpMethod.GET,
+                                  null,
+                                  responseType, userId);
+
+        return responseEntity.getBody();
     }
 }

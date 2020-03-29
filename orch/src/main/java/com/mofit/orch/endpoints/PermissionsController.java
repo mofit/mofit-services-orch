@@ -52,4 +52,11 @@ public class PermissionsController {
     public void loginUser(@PathVariable Integer userId, @RequestBody @Valid List<UserPermission> permissions) {
         permissionService.insertUserPermissions(userId, permissions);
     }
+
+    @ApiOperation(value = "Get user permissions by userId")
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/permissions/{userId}")
+    public List<UserPermission> getAccessModules(@PathVariable Integer userId) {
+        return permissionService.getUserPermissionsByUserId(userId);
+    }
 }

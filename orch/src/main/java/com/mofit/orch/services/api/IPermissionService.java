@@ -10,4 +10,5 @@ public interface IPermissionService {
     List<AccessModule> getAccessModules();
     String insertAccessModules(List<AccessModule> modules);
     void insertUserPermissions(Integer userId, List<UserPermission> permissions);
+    List<UserPermission> getUserPermissionsByUserId(Integer userId);
 }
