@@ -2,6 +2,7 @@ package com.mofit.orch.services.impl;
 
 import com.mofit.orch.exceptions.RestTemplateErrorHandler;
 import com.mofit.orch.services.api.ISportService;
+import com.mofit.sport.models.ExperienceLevel;
 import com.mofit.sport.models.Sport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +14,7 @@ import org.springframework.web.client.RestOperations;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -40,5 +42,10 @@ public class SportService implements ISportService {
                                     HttpMethod.GET,
                                     null,
                                     responseType).getBody();
+    }
+
+    @Override
+    public List<ExperienceLevel> getExperienceLevels() {
+        return Arrays.asList(ExperienceLevel.values());
     }
 }
